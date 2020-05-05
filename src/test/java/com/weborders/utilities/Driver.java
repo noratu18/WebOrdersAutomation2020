@@ -17,6 +17,41 @@ public class Driver {
 
     }
 
+    public static WebDriver getDriver(String browser){
+        //if WebDriver object doesn't exist
+        //create it
+        //check if the driver has value, if not assign a value
+        if(driver==null){
+            //specify browser type in configuration.properties file
+          //  String  browser = ConfigurationReader.getProperty("browser").toLowerCase();
+            switch (browser){
+                case "chrome":
+                    WebDriverManager.chromedriver().version("79").setup();
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.addArguments("--start-maximized");
+                    driver = new ChromeDriver();
+                    break;
+                case "chromeheadless":
+                    //to run chrome without interface(headless mode)
+                    WebDriverManager.chromedriver().version("79").setup();
+                    ChromeOptions options = new ChromeOptions();
+                    options.setHeadless(true);
+                    driver = new ChromeDriver(options);
+                    break;
+                case "firefox":
+                    WebDriverManager.firefoxdriver().setup();
+                    driver = new FirefoxDriver();
+                    break;
+                default:
+                    throw new RuntimeException("Wrong browser name!");
+
+            }
+        }
+
+        return  driver;
+
+    }
+
     public static WebDriver getDriver(){
         //if WebDriver object doesn't exist
         //create it
